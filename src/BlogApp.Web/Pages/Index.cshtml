@@ -1,6 +1,11 @@
 ﻿@page "/"
+@using BlogApp.Web.Services
+@using BlogApp.Web.ViewModels
+@inject IBlogService BlogService
 
-<NavMenu></NavMenu>
+<NavMenu>
+
+</NavMenu>
 <!-- Begin Site Title
 ================================================== -->
 <div class="container">
@@ -14,7 +19,7 @@
     ================================================== -->
     <!-- Begin Featured
     ================================================== -->
-    <section class="featured-posts">
+    <section style="display: none ;" class="featured-posts">
         <div class="section-title">
             <h2><span>Featured</span></h2>
         </div>
@@ -36,13 +41,11 @@
             <h2><span>All Stories</span></h2>
         </div>
         <div class="card-columns listrecent">
-
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
+            
+            @foreach (var post in viewModel.Posts)
+            {
+                <PostSummary IsHorizontal="false"></PostSummary>
+            }
 
         </div>
     </section>
@@ -51,3 +54,13 @@
     <Footer></Footer>
 </div>
 <!-- /.container -->
+
+@functions
+{
+    private HomePageViewModel viewModel = new HomePageViewModel();
+
+    protected override async Task OnInitAsync()
+    {
+        viewModel = await BlogService.GetHomePageAsync();
+    }
+}
