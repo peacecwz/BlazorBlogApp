@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BlogApp.API.Data.Entities;
 using BlogApp.API.Mappers;
 using BlogApp.API.Repositories;
 using BlogApp.Contract.Request.Categories;
@@ -14,7 +16,9 @@ namespace BlogApp.API.Services.Impl
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICategoryMapper _categoryMapper;
         private readonly ILogger<CategoriesService> _logger;
-        public CategoriesService(ICategoryRepository categoryRepository, ICategoryMapper categoryMapper, ILogger<CategoriesService> logger)
+
+        public CategoriesService(ICategoryRepository categoryRepository, ICategoryMapper categoryMapper,
+            ILogger<CategoriesService> logger)
         {
             _categoryRepository = categoryRepository;
             _categoryMapper = categoryMapper;
@@ -30,7 +34,16 @@ namespace BlogApp.API.Services.Impl
         {
             var response = new GetCategoriesResponse();
 
-            var entities = await _categoryRepository.GetCategoriesAsync();
+            IEnumerable<CategoryEntity> entities = null;
+            if (request.IsSpotlight)
+            {
+                entities = await _categoryRepository.GetSpotlightCategoriesAsync();
+            }
+            else
+            {
+                entities = await _categoryRepository.GetCategoriesAsync();
+            }
+
             response.Categories = entities.Select(x => _categoryMapper.ToModel(x)).ToList();
 
             return response;
@@ -43,7 +56,7 @@ namespace BlogApp.API.Services.Impl
             var entity = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
             if (entity == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                response.StatusCode = (int) HttpStatusCode.NotFound;
                 return response;
             }
 
@@ -59,7 +72,7 @@ namespace BlogApp.API.Services.Impl
             bool isExists = await _categoryRepository.IsExistCategoryByNameAsync(request.Category.Name);
             if (isExists)
             {
-                response.StatusCode = (int)HttpStatusCode.Conflict;
+                response.StatusCode = (int) HttpStatusCode.Conflict;
                 return response;
             }
 
@@ -68,12 +81,12 @@ namespace BlogApp.API.Services.Impl
 
             if (isSuccess)
             {
-                response.StatusCode = (int)HttpStatusCode.Created;
+                response.StatusCode = (int) HttpStatusCode.Created;
                 response.Category = _categoryMapper.ToModel(entity);
             }
             else
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.StatusCode = (int) HttpStatusCode.InternalServerError;
             }
 
             return response;
@@ -86,7 +99,7 @@ namespace BlogApp.API.Services.Impl
             var existCategory = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
             if (existCategory == null)
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.StatusCode = (int) HttpStatusCode.InternalServerError;
                 return response;
             }
 
@@ -96,12 +109,12 @@ namespace BlogApp.API.Services.Impl
             bool isSuccess = await _categoryRepository.UpdateCategoryAsync(entity);
             if (isSuccess)
             {
-                response.StatusCode = (int)HttpStatusCode.OK;
+                response.StatusCode = (int) HttpStatusCode.OK;
                 response.Category = _categoryMapper.ToModel(entity);
             }
             else
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.StatusCode = (int) HttpStatusCode.InternalServerError;
             }
 
             return response;
@@ -114,15 +127,15 @@ namespace BlogApp.API.Services.Impl
             var existCategory = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
             if (existCategory == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                response.StatusCode = (int) HttpStatusCode.NotFound;
                 return response;
             }
 
             bool isSuccess = await _categoryRepository.DeleteCategoryAsync(existCategory);
 
             response.StatusCode = isSuccess
-                ? (int)HttpStatusCode.OK
-                : (int)HttpStatusCode.InternalServerError;
+                ? (int) HttpStatusCode.OK
+                : (int) HttpStatusCode.InternalServerError;
 
             return response;
         }
