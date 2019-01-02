@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.API.Controllers
 {
-    [Authorize]
     [Route("api/categories")]
     [ApiController]
     public class CategoriesController : ApiControllerBase
@@ -20,9 +19,8 @@ namespace BlogApp.API.Controllers
         }
 
         // GET api/categories
-        [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetCategoriesAsync(GetCategoriesRequest request)
+        public async Task<IActionResult> GetCategoriesAsync([FromQuery]GetCategoriesRequest request)
         {
             GetCategoriesResponse response = await _categoriesService.GetCategoriesAsync(request);
 
@@ -30,7 +28,6 @@ namespace BlogApp.API.Controllers
         }
 
         // GET api/categories/5
-        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryAsync(int id)
         {
