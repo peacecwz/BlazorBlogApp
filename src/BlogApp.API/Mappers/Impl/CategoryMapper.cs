@@ -10,7 +10,8 @@ namespace BlogApp.API.Mappers.Impl
             return new CategoryEntity()
             {
                 Id = model.Id,
-                Name = model.Name
+                Name = model.Name,
+                IsSpotlight = model.IsSpotlight
             };
         }
 
@@ -19,7 +20,8 @@ namespace BlogApp.API.Mappers.Impl
             return new CategoryModel()
             {
                 Id = entity.Id,
-                Name = entity.Name
+                Name = entity.Name,
+                IsSpotlight = entity.IsSpotlight
             };
         }
     }
