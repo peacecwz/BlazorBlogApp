@@ -23,7 +23,7 @@ namespace BlogApp.API.Controllers
         //GET api/posts
         [AllowAnonymous]
         [HttpGet("")]
-        public async Task<IActionResult> GetPosts(GetPostsRequest request)
+        public async Task<IActionResult> GetPosts([FromQuery]GetPostsRequest request)
         {
             GetPostsResponse response = await _postsService.GetPostsAsync(request);
 
