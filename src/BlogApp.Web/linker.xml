@@ -1,0 +1,9 @@
+<linker>
+    <assembly fullname="mscorlib">
+        <type fullname="System.Threading.WasmRuntime" />
+    </assembly>
+    <assembly fullname="System.Core">
+        <type fullname="System.Linq.Expressions*" />
+    </assembly>
+    <assembly fullname="BlogApp.Web" />
+</linker>

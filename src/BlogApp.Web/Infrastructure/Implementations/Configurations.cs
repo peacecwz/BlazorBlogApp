@@ -4,6 +4,6 @@ namespace BlogApp.Web.Infrastructure.Implementations
 {
     public class Configurations : IBlogAppConfiguration
     {
-        public string BlogAppApiUrl => "https://blogappapi.azurewebsites.net/";
+        public string BlogAppApiUrl => "http://localhost:5000/";
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/author"
+﻿@page "/category/{Slug}"
 
 <NavMenu></NavMenu>
 <!-- Begin Site Title
@@ -51,3 +51,14 @@
     <Footer></Footer>
 </div>
 <!-- /.container -->
+
+@functions
+{
+    [Parameter]
+    public string Slug { get; set; }
+
+    protected override void OnInit()
+    {
+        Console.WriteLine($"Category Slug: {Slug}");
+    }
+}

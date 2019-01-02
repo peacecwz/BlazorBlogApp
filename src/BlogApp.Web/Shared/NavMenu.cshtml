@@ -9,7 +9,7 @@
     </button>
     <div class="container">
         <!-- Begin Logo -->
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand">
             <img src="img/logo.png" alt="logo">
         </a>
         <!-- End Logo -->
@@ -17,14 +17,14 @@
             <!-- Begin Menu -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <NavLink class="nav-link" Match=NavLinkMatch.All>
+                    <NavLink class="nav-link" href="/">
                         Home
                     </NavLink>
                 </li>
                 @foreach (var category in categories)
                 {
                     <li class="nav-item">
-                        <NavLink class="nav-link" href="author/@category.Id">
+                        <NavLink class="nav-link" href="category">
                             @category.Name
                         </NavLink>
                     </li>
@@ -52,6 +52,6 @@
 
     protected override async Task OnInitAsync()
     {
-        categories = await BlogService.GetCategoriesAsync();
+        categories = await BlogService.GetSpotlightCategoriesAsync();
     }
 }

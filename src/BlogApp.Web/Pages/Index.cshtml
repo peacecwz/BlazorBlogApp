@@ -58,9 +58,4 @@
 @functions
 {
     private HomePageViewModel viewModel = new HomePageViewModel();
-
-    protected override async Task OnInitAsync()
-    {
-        viewModel = await BlogService.GetHomePageAsync();
-    }
 }

@@ -5,7 +5,7 @@ namespace BlogApp.Web.ViewModels
 {
     public class HomePageViewModel
     {
-        public List<PostModel> Posts { get; set; }
-        public List<CategoryModel> Categories { get; set; }
+        public List<PostModel> Posts { get; set; } = new List<PostModel>();
+        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
     }
 }

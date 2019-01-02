@@ -2,5 +2,6 @@
 {
     public class GetCategoriesRequest : RequestBase
     {
+        public bool IsSpotlight { get; set; }
     }
 }
