@@ -23,6 +23,9 @@ namespace BlogApp.API
                 .AddMappersLayer()
                 .AddRepositoriesLayer()
                 .AddServicesLayer()
+                .AddSwaggerIntegration()
+                .AddCors(options =>
+                    options.AddPolicy("AllowAny", cors => cors.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()))
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -34,13 +37,11 @@ namespace BlogApp.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app
+                .UseCors("AllowAny")
+                .UseSwaggerIntegration()
+                .UseMvc();
         }
     }
 }
