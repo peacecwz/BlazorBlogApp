@@ -12,5 +12,6 @@ namespace BlogApp.API.Repositories
         Task<bool> IsExistCategoryByNameAsync(string name);
         Task<bool> UpdateCategoryAsync(CategoryEntity entity);
         Task<bool> DeleteCategoryAsync(CategoryEntity entity);
+        Task<IEnumerable<CategoryEntity>> GetSpotlightCategoriesAsync();
     }
 }

@@ -74,5 +74,13 @@ namespace BlogApp.API.Repositories.Impl
 
             return await SaveAsync();
         }
+
+        public async Task<IEnumerable<CategoryEntity>> GetSpotlightCategoriesAsync()
+        {
+            return await _dbContext.Categories
+                .Where(x => x.IsActive && !x.IsDeleted)
+                .Where(x => x.IsSpotlight)
+                .ToListAsync();
+        }
     }
 }
