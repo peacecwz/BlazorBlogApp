@@ -3,5 +3,6 @@
     public class CategoryEntity : EntityBase<int>
     {
         public string Name { get; set; }
+        public bool IsSpotlight { get; set; }
     }
 }
