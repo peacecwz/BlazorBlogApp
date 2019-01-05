@@ -7,6 +7,7 @@ using BlogApp.API.Services;
 using BlogApp.API.Services.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -18,7 +19,7 @@ namespace BlogApp.API.Extensions
         {
             services.AddSwaggerGen(options =>
             {
-                
+
                 options.SwaggerDoc("v1", new Info()
                 {
                     Title = "Blazor Blog API",
@@ -27,7 +28,7 @@ namespace BlogApp.API.Extensions
             });
             return services;
         }
-        
+
         public static IApplicationBuilder UseSwaggerIntegration(this IApplicationBuilder services)
         {
             services.UseSwagger();
@@ -40,7 +41,7 @@ namespace BlogApp.API.Extensions
             });
             return services;
         }
-        
+
         public static IServiceCollection AddMappersLayer(this IServiceCollection services)
         {
             services.AddTransient<IPostMapper, PostMapper>();
@@ -50,10 +51,11 @@ namespace BlogApp.API.Extensions
 
         public static IServiceCollection AddRepositoriesLayer(this IServiceCollection services)
         {
+            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
             services.AddDbContext<BlogAppDbContext>(options =>
-            {
-                options.UseSqlite("DataSource=app.db");
-            });
+                {
+                    options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
+                });
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;

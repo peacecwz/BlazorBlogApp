@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace BlogApp.API
 {
@@ -12,6 +13,8 @@ namespace BlogApp.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:5010")
+                .UseKestrel(options => { options.AddServerHeader = false; })
                 .UseStartup<Startup>();
     }
 }

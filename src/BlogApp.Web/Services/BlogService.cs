@@ -7,11 +7,9 @@ using BlogApp.Contract.Request.Categories;
 using BlogApp.Contract.Request.Posts;
 using BlogApp.Contract.Response.Categories;
 using BlogApp.Contract.Response.Posts;
+using BlogApp.Web.Extensions;
 using BlogApp.Web.Infrastructure;
 using BlogApp.Web.ViewModels;
-using Flurl;
-using Flurl.Http;
-using Flurl.Http.Configuration;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Browser.Http;
 using Newtonsoft.Json;
@@ -30,7 +28,6 @@ namespace BlogApp.Web.Services
             {
                 BaseAddress = new Uri(_blogAppConfiguration.BlogAppApiUrl)
             };
-            FlurlHttp.Configure(settings => { settings.HttpClientFactory = new HttpClientFactoryForBlazor(); });
         }
 
         public async Task<List<CategoryModel>> GetSpotlightCategoriesAsync()
@@ -42,14 +39,11 @@ namespace BlogApp.Web.Services
                     IsSpotlight = true
                 };
 
-                var response = await _blogAppConfiguration.BlogAppApiUrl
-                    .AppendPathSegment("/api/categories")
-                    .SetQueryParams(request)
-                    .GetJsonAsync<GetCategoriesResponse>();
-                
-                if (response.IsSuccess)
+                var response = await _client.GetAsync("/api/categories".WithQueryParams(request));
+                if (response.IsSuccessStatusCode)
                 {
-                    return response.Categories;
+                    var result = await response.Content.ReadAs<GetCategoriesResponse>();
+                    return result.Categories;
                 }
             }
             catch (Exception ex)
@@ -69,14 +63,11 @@ namespace BlogApp.Web.Services
                 {
                     IsFeaturePosts = true
                 };
-                var postsResponse = await _blogAppConfiguration.BlogAppApiUrl
-                    .AppendPathSegment("/api/posts")
-                    .SetQueryParams(request)
-                    .GetJsonAsync<GetPostsResponse>();
-
-                if (postsResponse.IsSuccess)
+                var postsResponse = await _client.GetAsync("/api/posts".WithQueryParams(request));
+                if (postsResponse.IsSuccessStatusCode)
                 {
-                    viewModel.Posts = postsResponse.Posts;
+                    var result = await postsResponse.Content.ReadAs<GetPostsResponse>();
+                    viewModel.Posts = result.Posts;
                 }
             }
             catch (Exception ex)
@@ -87,13 +78,12 @@ namespace BlogApp.Web.Services
             try
             {
                 var request = new GetCategoriesRequest();
-                var categoriesResponse = await _blogAppConfiguration.BlogAppApiUrl
-                    .AppendPathSegment("/categories")
-                    .SetQueryParams(request)
-                    .GetJsonAsync<GetCategoriesResponse>();
-                if (categoriesResponse.IsSuccess)
+                var categoriesResponse = await _client.GetAsync("/api/categories".WithQueryParams(request));
+
+                if (categoriesResponse.IsSuccessStatusCode)
                 {
-                    viewModel.Categories = categoriesResponse.Categories;
+                    var result = await categoriesResponse.Content.ReadAs<GetCategoriesResponse>();
+                    viewModel.Categories = result.Categories;
                 }
             }
             catch (Exception e)
@@ -102,14 +92,6 @@ namespace BlogApp.Web.Services
             }
 
             return viewModel;
-        }
-    }
-
-    public class HttpClientFactoryForBlazor : DefaultHttpClientFactory
-    {
-        public override HttpMessageHandler CreateMessageHandler()
-        {
-            return new BrowserHttpMessageHandler();
         }
     }
 }
