@@ -2,7 +2,7 @@
 <div class="graybg authorpage">
     <div class="container">
         <div class="listrecent listrelated">
-            @if (Posts == null || Posts.Count == 0)
+            @if (Posts == null)
             {
                 <h3>Loading...</h3>
             }
@@ -20,7 +20,11 @@
 
 @functions
 {
-    [Parameter]
-    public List<PostModel> Posts { get; set; }
 
+    [Parameter]
+    public List<PostModel> Posts { get; set; } = new List<PostModel>();
+
+    protected override void OnInit()
+    {
+    }
 }

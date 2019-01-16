@@ -11,7 +11,8 @@ namespace BlogApp.API.Mappers.Impl
             {
                 Id = model.Id,
                 Name = model.Name,
-                IsSpotlight = model.IsSpotlight
+                IsSpotlight = model.IsSpotlight,
+                Slug = model.Slug
             };
         }
 
@@ -21,7 +22,8 @@ namespace BlogApp.API.Mappers.Impl
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                IsSpotlight = entity.IsSpotlight
+                IsSpotlight = entity.IsSpotlight,
+                Slug = entity.Slug
             };
         }
     }

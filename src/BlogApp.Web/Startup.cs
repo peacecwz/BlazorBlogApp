@@ -11,7 +11,8 @@ namespace BlogApp.Web
         {
             services.AddSingleton<IDateHelper, DateHelper>();
             services.AddSingleton<IContentHelper, ContentHelper>();
-            services.AddSingleton<IBlogService, MockBlogService>();
+            services.AddSingleton<IBlogService, BlogService>();
+            services.AddSingleton<IBlogConfiguration, BlogConfiguration>();
         }
 
         public void Configure(IBlazorApplicationBuilder app)

@@ -9,5 +9,6 @@ namespace BlogApp.Contract.Models
         public string Description { get; set; }
         public bool IsSpotlight { get; set; }
         public List<PostModel> Posts { get; set; }
+        public string Slug { get; set; }
     }
 }

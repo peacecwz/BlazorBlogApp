@@ -9,7 +9,6 @@
 }
 else
 {
-
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
@@ -29,11 +28,10 @@ else
                                     </a>
                                 }
                             </div>
-                            <a target="_blank" href="https://twitter.com/wowthemesnet" class="btn follow">Follow</a>
+                            <a target="_blank" href="#" class="btn follow">Follow</a>
                         </div>
                         <div class="col-md-2 col-xs-12">
-                            <img class="author-thumb" src="@blogApp.Author.ImageUrl"
-                                 alt="@blogApp.Author.FullName">
+                            <img class="author-thumb" src="@blogApp.Author.ImageUrl" alt="@blogApp.Author.FullName">
                         </div>
                     </div>
                 </div>
@@ -41,18 +39,21 @@ else
         </div>
     </div>
 
-    <PostList Posts="@posts" />
+    <PostList Posts="@(posts ?? new List<PostModel>())" />
 }
 
 @functions
 {
-protected List<PostModel> posts = null;
-protected BlogAppModel blogApp = null;
+    protected List<PostModel> posts = null;
+    protected BlogAppModel blogApp = null;
 
-protected override async void OnInit()
-{
-    blogApp = await BlogService.GetBlogConfigurationAsync();
-    posts = await BlogService.GetPostsAsync();
-}
+    protected override async void OnInit()
+    {
+        Console.WriteLine("Starting Index Page");
+        blogApp = await BlogService.GetBlogConfigurationAsync() ?? new BlogAppModel();
+        posts = await BlogService.GetPostsAsync();
+        Console.WriteLine("Ending Index Page");
+        StateHasChanged();
+    }
 
 }
