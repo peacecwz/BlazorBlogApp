@@ -1,0 +1,23 @@
+{
+  "Title": "Baris Ceviz Blog",
+  "Icon": "favico.icon",
+  "Author": {
+    "FullName": "Baris Ceviz",
+    "ImageUrl": "https://pbs.twimg.com/profile_images/1065343290449555457/CGo0-nxE_400x400.jpg",
+    "About": "Software Development Engineer @Trendyol, Microsoft Student Partner, Yildiz Technical University, @Scodeapp",
+    "SocialMedias": [
+      {
+        "key": "facebook",
+        "value": "https://facebook.com/peacecwz"
+      },
+      {
+        "key": "twitter",
+        "value": "https://twitter.com/peacecwz"
+      },
+      {
+        "key": "github",
+        "value": "https://github.com/peacecwz"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+﻿@using BlogApp.Contract.Models
+<div class="graybg authorpage">
+    <div class="container">
+        <div class="listrecent listrelated">
+            @if (Posts == null || Posts.Count == 0)
+            {
+                <h3>Loading...</h3>
+            }
+            else
+            {
+                foreach (var post in Posts)
+                {
+                    <PostSummary Post="@post" />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+@functions
+{
+    [Parameter]
+    public List<PostModel> Posts { get; set; }
+
+}

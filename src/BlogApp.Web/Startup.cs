@@ -1,5 +1,4 @@
-using BlogApp.Web.Infrastructure;
-using BlogApp.Web.Infrastructure.Implementations;
+using BlogApp.Web.Helpers;
 using BlogApp.Web.Services;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +9,9 @@ namespace BlogApp.Web
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBlogAppConfiguration, Configurations>();
-            services.AddScoped<IBlogService, BlogService>();
+            services.AddSingleton<IDateHelper, DateHelper>();
+            services.AddSingleton<IContentHelper, ContentHelper>();
+            services.AddSingleton<IBlogService, MockBlogService>();
         }
 
         public void Configure(IBlazorApplicationBuilder app)

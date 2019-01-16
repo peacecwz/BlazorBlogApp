@@ -17,5 +17,7 @@ namespace BlogApp.Contract.Models
         public DateTime CreatedOn { get; set; }
         public DateTime? PublishedDate { get; set; }
         public Guid AuthorId { get; set; }
+        public string AuthorImageUrl { get; set; }
+        public string AuthorFullName { get; set; }
     }
 }

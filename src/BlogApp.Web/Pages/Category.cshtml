@@ -1,64 +1,44 @@
 ﻿@page "/category/{Slug}"
+@using BlogApp.Contract.Models
+@using BlogApp.Web.Services
+@inject IBlogService BlogService
 
-<NavMenu></NavMenu>
-<!-- Begin Site Title
-================================================== -->
-<div class="container">
-    <div class="mainheading">
-        <h1 class="sitetitle">Mediumish</h1>
-        <p class="lead">
-            Bootstrap theme, medium style, simply perfect for bloggers
-        </p>
+@if (category == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="mainheading">
+                    <div class="row post-top-meta authorpage">
+                        <div class="col-md-10 col-xs-12">
+                            <h1>@category.Name</h1>
+                            <span class="author-description">
+                                @category.Description
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- End Site Title
-    ================================================== -->
-    <!-- Begin Featured
-    ================================================== -->
-    <section class="featured-posts">
-        <div class="section-title">
-            <h2><span>Featured</span></h2>
-        </div>
-        <div class="card-columns listfeaturedtag">
 
-            <PostSummary IsHorizontal="true"></PostSummary>
-            <PostSummary IsHorizontal="true"></PostSummary>
-            <PostSummary IsHorizontal="true"></PostSummary>
-            <PostSummary IsHorizontal="true"></PostSummary>
-
-        </div>
-    </section>
-    <!-- End Featured
-    ================================================== -->
-    <!-- Begin List Posts
-    ================================================== -->
-    <section class="recent-posts">
-        <div class="section-title">
-            <h2><span>All Stories</span></h2>
-        </div>
-        <div class="card-columns listrecent">
-
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-            <PostSummary IsHorizontal="false"></PostSummary>
-
-        </div>
-    </section>
-    <!-- End List Posts
-    ================================================== -->
-    <Footer></Footer>
-</div>
-<!-- /.container -->
+    <PostList Posts="@category.Posts" />
+}
 
 @functions
 {
-    [Parameter]
-    public string Slug { get; set; }
+[Parameter]
+public string Slug { get; set; }
 
-    protected override void OnInit()
-    {
-        Console.WriteLine($"Category Slug: {Slug}");
-    }
+protected CategoryModel category = null;
+
+protected override async void OnInit()
+{
+    category = await BlogService.GetCategoryAsync(Slug);
+}
 }

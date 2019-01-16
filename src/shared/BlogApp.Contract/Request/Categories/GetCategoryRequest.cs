@@ -2,6 +2,7 @@
 {
     public class GetCategoryRequest : RequestBase
     {
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
+        public string Slug { get; set; }
     }
 }
