@@ -28,13 +28,19 @@ namespace BlogApp.API.Controllers
         }
 
         // GET api/categories/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryAsync(int id)
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> GetCategoryAsync([FromRoute]string slug)
         {
-            var request = new GetCategoryRequest()
+            var request = new GetCategoryRequest();
+
+            if (int.TryParse(slug, out int categoryId))
             {
-                CategoryId = id
-            };
+                request.CategoryId = categoryId;
+            }
+            else
+            {
+                request.Slug = slug;
+            }
 
             GetCategoryResponse response = await _categoriesService.GetCategoryAsync(request);
 
