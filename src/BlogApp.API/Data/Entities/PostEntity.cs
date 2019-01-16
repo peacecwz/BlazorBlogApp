@@ -15,5 +15,6 @@ namespace BlogApp.API.Data.Entities
         public string CoverImageUrl { get; set; }
         public DateTime? PublishedDate { get; set; }
         public Guid AuthorId { get; set; }
+        public bool IsPublished { get; set; }
     }
 }
