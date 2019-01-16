@@ -14,15 +14,19 @@ namespace BlogApp.API.Services.Impl
     public class CategoriesService : ICategoriesService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IPostRepository _postRepository;
         private readonly ICategoryMapper _categoryMapper;
+        private readonly IPostMapper _postMapper;
         private readonly ILogger<CategoriesService> _logger;
 
         public CategoriesService(ICategoryRepository categoryRepository, ICategoryMapper categoryMapper,
-            ILogger<CategoriesService> logger)
+            ILogger<CategoriesService> logger, IPostRepository postRepository, IPostMapper postMapper)
         {
             _categoryRepository = categoryRepository;
             _categoryMapper = categoryMapper;
             _logger = logger;
+            _postRepository = postRepository;
+            _postMapper = postMapper;
         }
 
         public void Dispose()
@@ -53,7 +57,17 @@ namespace BlogApp.API.Services.Impl
         {
             var response = new GetCategoryResponse();
 
-            var entity = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
+            CategoryEntity entity = null;
+
+            if (request.CategoryId.HasValue)
+            {
+                entity = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId.Value);
+            }
+            else
+            {
+                entity = await _categoryRepository.GetCategoryBySlugAsync(request.Slug);
+            }
+            
             if (entity == null)
             {
                 response.StatusCode = (int) HttpStatusCode.NotFound;
@@ -61,6 +75,15 @@ namespace BlogApp.API.Services.Impl
             }
 
             response.Category = _categoryMapper.ToModel(entity);
+
+            var postEntities = await _postRepository.GetPostsByCategoryIdAsync(entity.Id);
+            if (postEntities == null)
+            {
+                _logger.LogWarning($"Not found posts of {entity.Id}-{entity.Name}");
+                return response;
+            }
+
+            response.Category.Posts = postEntities.Select(post => _postMapper.ToModel(post)).ToList();
 
             return response;
         }
