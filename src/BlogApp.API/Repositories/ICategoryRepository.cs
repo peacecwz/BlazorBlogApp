@@ -13,5 +13,6 @@ namespace BlogApp.API.Repositories
         Task<bool> UpdateCategoryAsync(CategoryEntity entity);
         Task<bool> DeleteCategoryAsync(CategoryEntity entity);
         Task<IEnumerable<CategoryEntity>> GetSpotlightCategoriesAsync();
+        Task<CategoryEntity> GetCategoryBySlugAsync(string slug);
     }
 }

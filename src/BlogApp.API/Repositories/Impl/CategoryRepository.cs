@@ -82,5 +82,13 @@ namespace BlogApp.API.Repositories.Impl
                 .Where(x => x.IsSpotlight)
                 .ToListAsync();
         }
+
+        public async Task<CategoryEntity> GetCategoryBySlugAsync(string slug)
+        {
+            return await _dbContext.Categories
+                .Where(category => category.IsActive && !category.IsDeleted)
+                .Where(category => category.Slug == slug)
+                .FirstOrDefaultAsync();
+        }
     }
 }
