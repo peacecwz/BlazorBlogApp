@@ -1,4 +1,5 @@
 ﻿using BlogApp.API.Extensions;
+using BlogApp.API.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace BlogApp.API
                 .AddSwaggerIntegration()
                 .AddCors(options =>
                     options.AddPolicy("AllowAny", cors => cors.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()))
-                .AddMvc()
+                .AddMvcCore(options => options.Filters.Add<ExceptionFilter>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
