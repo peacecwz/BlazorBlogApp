@@ -76,14 +76,18 @@ namespace BlogApp.API.Services.Impl
 
             response.Category = _categoryMapper.ToModel(entity);
 
-            var postEntities = await _postRepository.GetPostsByCategoryIdAsync(entity.Id);
-            if (postEntities == null)
+            if (request.IncludePosts)
             {
-                _logger.LogWarning($"Not found posts of {entity.Id}-{entity.Name}");
-                return response;
-            }
 
-            response.Category.Posts = postEntities.Select(post => _postMapper.ToModel(post)).ToList();
+                var postEntities = await _postRepository.GetPostsByCategoryIdAsync(entity.Id);
+                if (postEntities == null)
+                {
+                    _logger.LogWarning($"Not found posts of {entity.Id}-{entity.Name}");
+                    return response;
+                }
+
+                response.Category.Posts = postEntities.Select(post => _postMapper.ToModel(post)).ToList();
+            }
 
             return response;
         }

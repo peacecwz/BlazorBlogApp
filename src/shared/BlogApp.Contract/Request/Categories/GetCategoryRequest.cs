@@ -4,5 +4,6 @@
     {
         public int? CategoryId { get; set; }
         public string Slug { get; set; }
+        public bool IncludePosts { get; set; }
     }
 }
