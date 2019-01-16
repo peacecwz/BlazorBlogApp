@@ -41,6 +41,7 @@ namespace BlogApp.API.Repositories.Impl
         public async Task<IEnumerable<PostEntity>> GetPostsAsync(int pageIndex, int itemCountPerPage)
         {
             return await _dbContext.Posts
+                .Where(post => post.IsActive && !post.IsDeleted && post.IsPublished)
                 .OrderByDescending(x => x.CreatedOn)
                 .Skip(pageIndex * itemCountPerPage)
                 .Take(itemCountPerPage)
@@ -81,6 +82,15 @@ namespace BlogApp.API.Repositories.Impl
             _dbContext.Posts.Remove(entity);
 
             return await SaveAsync();
+        }
+
+        public async Task<List<PostEntity>> GetPostsByCategoryIdAsync(int categoryId)
+        {
+            return await _dbContext.Posts
+                .Where(x => x.CategoryId == categoryId)
+                .Where(x => x.IsActive && !x.IsDeleted && x.IsPublished)
+                .OrderByDescending(x => x.PublishedDate)
+                .ToListAsync();
         }
     }
 }

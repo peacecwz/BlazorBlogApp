@@ -14,5 +14,6 @@ namespace BlogApp.API.Repositories
         Task<bool> CreatePostAsync(PostEntity entity);
         Task<bool> UpdatePostAsync(PostEntity entity);
         Task<bool> DeletePostAsync(PostEntity entity);
+        Task<List<PostEntity>> GetPostsByCategoryIdAsync(int categoryId);
     }
 }
