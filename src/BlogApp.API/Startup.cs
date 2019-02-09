@@ -27,7 +27,7 @@ namespace BlogApp.API
                 .AddSwaggerIntegration()
                 .AddCors(options =>
                     options.AddPolicy("AllowAny", cors => cors.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()))
-                .AddMvcCore(options => options.Filters.Add<ExceptionFilter>())
+                .AddMvc(options => options.Filters.Add<ExceptionFilter>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -8,6 +8,7 @@ using BlogApp.Contract.Request.Posts;
 using BlogApp.Contract.Response.Categories;
 using BlogApp.Contract.Response.Posts;
 using BlogApp.Web.Extensions;
+using BlogApp.Web.Infrastructure.Configurations;
 using Microsoft.JSInterop;
 
 namespace BlogApp.Web.Services

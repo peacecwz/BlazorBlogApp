@@ -2,22 +2,17 @@ using System.Net;
 using BlogApp.Contract.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace BlogApp.API.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {
-        private readonly ILogger<ExceptionFilter> _logger;
-
-        public ExceptionFilter(ILogger<ExceptionFilter> logger)
-        {
-            _logger = logger;
-        }
-
         public void OnException(ExceptionContext context)
         {
-            _logger.LogError(context.Exception, "Has an error occurred on Exception Filter");
+            var logger = context.HttpContext.RequestServices.GetService<ILogger<ExceptionFilter>>();
+            logger.LogError(context.Exception, "Has an error occurred on Exception Filter");
 
             var error = new ErrorModel()
             {
@@ -25,7 +20,7 @@ namespace BlogApp.API.Filters
                 Description = context.Exception.StackTrace
             };
             context.Exception = context.Exception.InnerException;
-            
+
             while (context.Exception != null)
             {
                 error.SubErrors.Add(new ErrorModel()

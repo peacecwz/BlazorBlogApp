@@ -1,4 +1,5 @@
 using BlogApp.Web.Helpers;
+using BlogApp.Web.Infrastructure.Configurations;
 using BlogApp.Web.Services;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
