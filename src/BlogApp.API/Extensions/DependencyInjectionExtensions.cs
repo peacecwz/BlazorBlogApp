@@ -15,6 +15,13 @@ namespace BlogApp.API.Extensions
 {
     public static class DependencyInjectionExtensions
     {
+        public static IServiceCollection AddConfiguredAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication();
+            services.AddAuthorization();
+            return services;
+        }
+
         public static IServiceCollection AddSwaggerIntegration(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>

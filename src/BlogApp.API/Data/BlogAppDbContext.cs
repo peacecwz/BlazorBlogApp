@@ -1,5 +1,4 @@
-﻿using BlogApp.API.Controllers;
-using BlogApp.API.Data.Entities;
+﻿using BlogApp.API.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Data

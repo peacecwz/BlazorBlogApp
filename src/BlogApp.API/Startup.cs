@@ -24,6 +24,7 @@ namespace BlogApp.API
                 .AddRepositoriesLayer()
                 .AddServicesLayer()
                 .AddSwaggerIntegration()
+                .AddConfiguredAuthentication()
                 .AddCors(options =>
                     options.AddPolicy("AllowAny", cors => cors.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()))
                 .AddMvc()
@@ -40,6 +41,7 @@ namespace BlogApp.API
 
             app
                 .UseCors("AllowAny")
+                .UseConfiguredExceptionHandler(env)
                 .UseSwaggerIntegration()
                 .UseMvc();
         }

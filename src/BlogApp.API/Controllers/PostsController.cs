@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlogApp.API.Controllers
 {
     [Authorize]
-    [Route("api/posts")]
+    [Route("v1/posts")]
     [ApiController]
     public class PostsController : ApiControllerBase
     {

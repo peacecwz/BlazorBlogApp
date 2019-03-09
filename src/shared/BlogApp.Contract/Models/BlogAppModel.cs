@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BlogApp.Contract.Models
+﻿namespace BlogApp.Contract.Models
 {
     public class BlogAppModel
     {
